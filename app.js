@@ -1,31 +1,22 @@
-const http = require("http");
-const fs = require("fs");
-const path = require("path");
-const filePath = path.join(process.cwd(), "data.txt");
-const server = http.createServer((req, res) => {
-    if (req.url === "/") {
-        res.write("Hello World");
-        res.end();
-    } else if (req.url === "/form") {
-        res.setHeader("Content-Type", "text/html");
-        res.write("<form action='/submit' method='POST'><input name='data' /><input name='data2' /><button>Submit</button></form>");
-        res.end();
-    } else if (req.url === "/submit") {
-        let data = "";
-        req.on("data", chunk => data += chunk);
-        req.on("end", () => {
-            fs.readFile(filePath, "utf8", (_, fileData) => {
-                const newData = fileData + "\n" + data;
-                fs.writeFile(filePath, newData, () => {
-                    res.write("Data Recieved");
-                    res.end();
-                });
-            })
+const PORT = 3000;
+const express = require('express');
+const bodyParser = require('body-parser');
+const app = express();
+const path = require('path');
 
-        });
-    } else {
-        res.write("404 - Not Found");
-        res.end();
-    }
-});
-server.listen(3000)
+
+const form = require('./routes/form')
+
+app.use(bodyParser.urlencoded({extended: false}))
+app.use(express.static(path.join(process.cwd(),"public")))
+
+// app.use((req, res, next)=>{ // Auth Middleware
+//     req.user = "Ahmer";
+//     next();
+// })
+
+app.use("/form", form);
+
+app.listen(PORT, ()=>{
+    console.log("Port is Running on : " + PORT);
+})
