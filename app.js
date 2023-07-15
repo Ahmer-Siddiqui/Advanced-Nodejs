@@ -4,8 +4,8 @@ const bodyParser = require('body-parser');
 const app = express();
 const path = require('path');
 
-
 const form = require('./routes/form')
+const todo = require('./routes/todo')
 
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(express.static(path.join(process.cwd(),"public")))
@@ -15,7 +15,13 @@ app.use(express.static(path.join(process.cwd(),"public")))
 //     next();
 // })
 
+//Define engine
+app.set("view engine", "ejs")
+//Define engine folder
+app.set("views", "views")
+
 app.use("/form", form);
+app.use("/todo", todo);
 
 app.listen(PORT, ()=>{
     console.log("Port is Running on : " + PORT);

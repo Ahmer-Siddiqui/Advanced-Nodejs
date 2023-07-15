@@ -7,9 +7,10 @@
     <title>Document</title>
 </head>
 <body>
-    <form action="/form/submit" method="post">
-        <input type="text" name="firstName">
-        <input type="text" name="lastName">
+    <!-- Single line Ejs Start-->
+    <h1>Hello form EJS to <%= user %></h1>
+    <form action="/todo/add" method="post">
+        <input type="text" name="data">
         <button>Submit</button>
     </form>
 </body>

@@ -2,9 +2,10 @@ const express = require("express");
 const router = express.Router();
 const path = require('path');
 
-
+//note: we put views directery in main app.js so not put complete path
+// now our path is views file
 router.get("/", (req, res) => {
-  res.sendFile(path.join(process.cwd(), "views", "form.html"))
+  res.render("form", {user: req.query.name || "Siddiqui"})
 });
 
 
